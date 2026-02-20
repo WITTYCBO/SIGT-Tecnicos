@@ -1146,19 +1146,25 @@ ${g('r-res')==='Resuelto' ? '✅ RESUELTA · Pendiente confirmación coordinador
       document.getElementById('dbg-status').textContent = '⏳ Enviando...';
     }
 
-    fetch(url1, { method: 'GET', mode: 'no-cors' })
-      .then(() => {
-        if (dbg) document.getElementById('dbg-status').textContent = '✅ REG enviado — enviando INF...';
-        return fetch(url2, { method: 'GET', mode: 'no-cors' });
-      })
-      .then(() => {
-        if (dbg) document.getElementById('dbg-status').textContent = '✅ Ambas peticiones enviadas';
+    // Usar XMLHttpRequest asíncrono — más compatible con redirecciones de Google
+    function xhrGet(url, done) {
+      var x = new XMLHttpRequest();
+      x.open('GET', url, true);
+      x.onload  = function() { done(true); };
+      x.onerror = function() { done(false); };
+      x.ontimeout = function() { done(false); };
+      x.timeout = 10000;
+      x.send();
+    }
+
+    if (dbg) document.getElementById('dbg-status').textContent = '⏳ Enviando REGISTRO...';
+    xhrGet(url1, function(ok1) {
+      if (dbg) document.getElementById('dbg-status').textContent = ok1 ? '✅ REG OK — enviando INFORME...' : '⚠️ REG sin respuesta — enviando INFORME...';
+      xhrGet(url2, function(ok2) {
+        if (dbg) document.getElementById('dbg-status').textContent = '✅ Ambas peticiones enviadas (REG:' + ok1 + ' INF:' + ok2 + ')';
         cb && cb(true);
-      })
-      .catch(e => {
-        if (dbg) document.getElementById('dbg-status').textContent = '❌ Error: ' + e.message;
-        cb && cb(false, e.message);
       });
+    });
   },
 
   sendWA() {
