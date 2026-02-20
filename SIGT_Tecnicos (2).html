@@ -1,0 +1,1432 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#080b10">
+<title>SIGT · Técnicos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Russo+One&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#080b10; --s1:#0d1117; --s2:#131920; --s3:#182030;
+  --bd:#1e2a3a; --bd2:#2a3d55;
+  --A:#00d4ff; --G:#00e676; --Y:#ffd740; --R:#ff1744; --O:#ff6d00;
+  --Ad:rgba(0,212,255,.10); --Gd:rgba(0,230,118,.10);
+  --Yd:rgba(255,215,64,.10); --Rd:rgba(255,23,68,.10);
+  --tx:#b0c4d8; --tx2:#546e7a; --txbr:#e0ecf8;
+  --mono:'Share Tech Mono',monospace;
+  --hd:'Russo One',sans-serif;
+  --body:'Exo 2',sans-serif;
+  --r:4px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden}
+body{background:var(--bg);color:var(--tx);font-family:var(--body);font-size:14px;display:flex;flex-direction:column;}
+body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.06) 3px);pointer-events:none;z-index:9000;}
+
+/* HEADER */
+#hdr{flex-shrink:0;height:54px;background:var(--s1);border-bottom:1px solid var(--bd);display:flex;align-items:center;padding:0 14px;gap:10px;box-shadow:0 2px 16px rgba(0,0,0,.5);position:relative;z-index:100;}
+.logo{font-family:var(--hd);font-size:24px;color:var(--A);letter-spacing:4px;display:flex;align-items:center;gap:9px;}
+.pulse{width:8px;height:8px;border-radius:50%;background:var(--G);box-shadow:0 0 8px var(--G);animation:pulse 2s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.8)}}
+.logo-sub{font-family:var(--mono);font-size:10px;color:var(--tx2);letter-spacing:2px;margin-top:2px;}
+.hdr-r{margin-left:auto;display:flex;align-items:center;gap:12px;}
+.hdr-tec{font-family:var(--mono);font-size:11px;color:var(--A);background:var(--s2);border:1px solid var(--bd);border-radius:var(--r);padding:3px 9px;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.hdr-clk{font-family:var(--mono);font-size:13px;color:var(--tx2);}
+
+/* TABS */
+#tabs{flex-shrink:0;background:var(--s1);border-bottom:1px solid var(--bd);display:flex;overflow-x:auto;scrollbar-width:none;}
+#tabs::-webkit-scrollbar{display:none}
+.tab{flex-shrink:0;padding:11px 16px;font-family:var(--mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--tx2);border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;}
+.tab:hover{color:var(--tx);background:rgba(0,212,255,.03);}
+.tab.on{color:var(--A);border-bottom-color:var(--A);}
+
+/* VIEW */
+#view{flex:1;overflow-y:auto;overflow-x:hidden;}
+#view::-webkit-scrollbar{width:3px;}
+#view::-webkit-scrollbar-track{background:var(--bg);}
+#view::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:2px;}
+.pg{display:none;padding:14px;}
+.pg.on{display:block;}
+
+/* CARD */
+.card{background:var(--s1);border:1px solid var(--bd);border-radius:var(--r);margin-bottom:12px;overflow:hidden;}
+.card-h{background:var(--s2);border-bottom:1px solid var(--bd);padding:9px 14px;display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.card-t{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--txbr);display:flex;align-items:center;gap:8px;}
+.card-b{padding:14px;}
+
+/* PASTE ZONE */
+.paste-zone{background:var(--bg);border:2px dashed var(--bd2);border-radius:var(--r);padding:14px;transition:all .2s;}
+.paste-zone:focus-within{border-color:var(--A);background:var(--Ad);}
+.paste-zone textarea{width:100%;min-height:120px;background:transparent;border:none;outline:none;resize:none;font-family:var(--mono);font-size:11px;color:var(--txbr);line-height:1.7;}
+.paste-zone textarea::placeholder{color:var(--tx2);}
+
+/* DATA GRID */
+.dgrid{background:var(--bg);border:1px solid var(--bd);border-radius:var(--r);overflow:hidden;}
+.drow{display:flex;align-items:flex-start;padding:7px 12px;border-bottom:1px solid var(--bd);font-size:12px;gap:10px;}
+.drow:last-child{border-bottom:none;}
+.dk{font-family:var(--mono);font-size:10px;color:var(--tx2);flex-shrink:0;width:90px;}
+.dv{color:var(--txbr);flex:1;}
+.dv.hi{color:var(--A);font-weight:600;}
+
+/* SEVERITY */
+.sev{font-family:var(--mono);font-size:10px;font-weight:700;padding:2px 7px;border-radius:2px;}
+.s1{background:var(--R);color:#fff;} .s2{background:var(--Y);color:#000;} .s3{background:var(--A);color:#000;} .s4{background:var(--tx2);color:#fff;}
+
+/* TIMER */
+.tmr-wrap{background:var(--bg);border:1px solid var(--bd2);border-radius:var(--r);padding:22px;text-align:center;margin-bottom:14px;}
+#tmr{font-family:var(--mono);font-size:58px;color:var(--A);letter-spacing:8px;line-height:1;transition:color .3s;}
+#tmr.run{color:var(--G);text-shadow:0 0 22px rgba(0,230,118,.4);}
+.tmr-lbl{font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--tx2);margin-top:6px;}
+.tmr-sub{font-family:var(--mono);font-size:11px;color:var(--tx2);margin-top:4px;}
+
+/* BUTTONS */
+.btn{font-family:var(--mono);font-size:12px;letter-spacing:1.5px;text-transform:uppercase;padding:11px 18px;border-radius:var(--r);border:1px solid;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;justify-content:center;gap:7px;}
+.bP{background:var(--A);color:#000;border-color:var(--A);}
+.bP:hover{background:#00b8e0;box-shadow:0 0 18px rgba(0,212,255,.3);}
+.bG{background:var(--G);color:#000;border-color:var(--G);}
+.bG:hover{background:#00c85a;box-shadow:0 0 18px rgba(0,230,118,.3);}
+.bR{background:transparent;color:var(--R);border-color:var(--R);}
+.bR:hover{background:var(--Rd);}
+.bW{background:transparent;color:var(--tx);border-color:var(--bd2);}
+.bW:hover{border-color:var(--A);color:var(--A);}
+.bY{background:var(--Y);color:#000;border-color:var(--Y);}
+.sm{padding:6px 12px;font-size:10px;}
+.btn:disabled{opacity:.35;cursor:not-allowed;}
+.full{width:100%;}
+.brow{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px;}
+.brow .btn{flex:1;min-width:100px;}
+
+/* FORM */
+.f{margin-bottom:13px;}
+.f label{display:block;font-family:var(--mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--tx2);margin-bottom:5px;}
+.f input,.f select,.f textarea{width:100%;background:var(--bg);border:1px solid var(--bd2);color:var(--txbr);font-family:var(--body);font-size:14px;padding:9px 12px;border-radius:var(--r);outline:none;transition:border-color .15s;}
+.f input:focus,.f select:focus,.f textarea:focus{border-color:var(--A);box-shadow:0 0 0 2px rgba(0,212,255,.08);}
+.f select option{background:var(--s2);}
+.f textarea{resize:vertical;min-height:76px;line-height:1.55;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:11px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;}
+
+/* CHECKBOXES */
+.cg{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;}
+.ck{display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer;color:var(--tx);padding:4px 9px;border:1px solid var(--bd);border-radius:var(--r);user-select:none;transition:all .15s;}
+.ck:hover{border-color:var(--bd2);}
+.ck.on{border-color:var(--A);color:var(--A);background:var(--Ad);}
+
+/* DIVIDER */
+.dv{display:flex;align-items:center;gap:8px;margin:16px 0 11px;font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--tx2);text-transform:uppercase;}
+.dv::before,.dv::after{content:'';flex:1;height:1px;background:var(--bd);}
+.dn{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:var(--A);color:#000;font-family:var(--mono);font-size:10px;font-weight:700;}
+
+/* ALERT */
+.al{padding:9px 13px;border-radius:var(--r);font-size:13px;margin-bottom:11px;display:flex;align-items:flex-start;gap:8px;line-height:1.4;}
+.ai{background:var(--Ad);border:1px solid rgba(0,212,255,.25);color:var(--A);}
+.ag{background:var(--Gd);border:1px solid rgba(0,230,118,.25);color:var(--G);}
+.ay{background:var(--Yd);border:1px solid rgba(255,215,64,.25);color:var(--Y);}
+.ar{background:var(--Rd);border:1px solid rgba(255,23,68,.25);color:var(--R);}
+
+/* MIC */
+.mic{margin-top:6px;width:100%;padding:9px 12px;background:var(--bg);border:1px solid var(--bd2);border-radius:var(--r);color:var(--tx);font-family:var(--body);font-size:12px;cursor:pointer;display:flex;align-items:center;gap:9px;transition:all .2s;}
+.mic:hover{border-color:var(--A);color:var(--A);}
+.mic.on{border-color:var(--R);color:var(--R);background:var(--Rd);animation:mb 1s infinite;}
+@keyframes mb{0%,100%{box-shadow:0 0 0 0 rgba(255,23,68,.4)}50%{box-shadow:0 0 0 5px rgba(255,23,68,0)}}
+
+/* MEDIA */
+.mgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px;}
+.mthumb{aspect-ratio:1;background:var(--bg);border:1px solid var(--bd2);border-radius:var(--r);overflow:hidden;position:relative;}
+.mthumb img,.mthumb video{width:100%;height:100%;object-fit:cover;}
+.mdel{position:absolute;top:3px;right:3px;background:rgba(0,0,0,.8);color:var(--R);border:none;border-radius:2px;width:20px;height:20px;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.madd{aspect-ratio:1;background:var(--bg);border:1px dashed var(--bd2);border-radius:var(--r);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;color:var(--tx2);font-size:22px;transition:all .2s;}
+.madd:hover{border-color:var(--A);color:var(--A);}
+.madd span{font-size:10px;font-family:var(--mono);margin-top:3px;}
+
+/* WA PREVIEW */
+.wabox{background:#0d2b22;border:1px solid #1a5c3a;border-radius:6px;padding:13px;font-family:var(--mono);font-size:11px;color:#e8f5e9;white-space:pre-wrap;line-height:1.7;max-height:300px;overflow-y:auto;}
+
+/* TOAST */
+#toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--s2);border:1px solid var(--bd2);border-radius:var(--r);padding:10px 18px;font-family:var(--mono);font-size:12px;color:var(--txbr);box-shadow:0 4px 24px rgba(0,0,0,.6);z-index:9999;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;max-width:90vw;text-align:center;}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+#toast.tok{border-color:var(--G);color:var(--G);}
+#toast.terr{border-color:var(--R);color:var(--R);}
+#toast.twarn{border-color:var(--Y);color:var(--Y);}
+
+/* FLOAT TIMER */
+#ftbar{position:fixed;bottom:0;left:0;right:0;background:var(--s1);border-top:1px solid var(--A);padding:8px 16px;z-index:800;display:none;align-items:center;justify-content:space-between;box-shadow:0 -4px 20px rgba(0,212,255,.1);}
+#ftbar.show{display:flex;}
+#ftval{font-family:var(--mono);font-size:22px;color:var(--G);}
+.ftlbl{font-family:var(--mono);font-size:10px;color:var(--tx2);}
+
+/* CODE */
+pre.code{background:var(--bg);border:1px solid var(--bd);border-radius:var(--r);padding:12px;font-family:var(--mono);font-size:10px;color:var(--tx);white-space:pre-wrap;word-break:break-all;max-height:220px;overflow-y:auto;line-height:1.6;}
+.cfg-step{display:flex;gap:10px;margin-bottom:10px;font-size:13px;line-height:1.5;}
+.cfg-step:last-child{margin-bottom:0;}
+.csn{flex-shrink:0;width:22px;height:22px;border-radius:50%;background:var(--A);color:#000;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:700;margin-top:1px;}
+.cp{display:inline-block;background:var(--s2);border:1px solid var(--bd2);border-radius:3px;padding:1px 6px;font-family:var(--mono);font-size:11px;color:var(--A);}
+.url-ok{word-break:break-all;font-family:var(--mono);font-size:11px;color:var(--G);background:var(--bg);border:1px solid var(--bd);border-radius:var(--r);padding:8px 10px;margin-top:6px;}
+
+.spin{width:20px;height:20px;border:2px solid var(--bd);border-top-color:var(--A);border-radius:50%;animation:sp .7s linear infinite;display:inline-block;}
+@keyframes sp{to{transform:rotate(360deg)}}
+.empty{text-align:center;padding:36px 20px;color:var(--tx2);}
+.empty .ei{font-size:38px;margin-bottom:10px;}
+.empty .et{font-family:var(--mono);font-size:12px;letter-spacing:1px;}
+
+@media(max-width:360px){
+  .g2{grid-template-columns:1fr;}
+  .g3{grid-template-columns:1fr 1fr;}
+  #tmr{font-size:42px;letter-spacing:4px;}
+}
+
+/* ─── CFG PASSWORD MODAL ───────────────────── */
+#cfg-modal {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.85);
+  z-index: 9998;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+#cfg-modal-box {
+  background: var(--s1);
+  border: 1px solid var(--bd2);
+  border-radius: var(--r);
+  padding: 28px 24px;
+  width: 100%;
+  max-width: 360px;
+  box-shadow: 0 8px 40px rgba(0,0,0,.7);
+}
+@keyframes shake {
+  0%,100%{transform:translateX(0)}
+  20%{transform:translateX(-8px)}
+  40%{transform:translateX(8px)}
+  60%{transform:translateX(-6px)}
+  80%{transform:translateX(6px)}
+}
+.cfg-modal-title {
+  font-family: var(--hd);
+  font-size: 20px;
+  color: var(--txbr);
+  letter-spacing: 3px;
+  text-align: center;
+  margin-bottom: 6px;
+}
+.cfg-modal-sub {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--tx2);
+  letter-spacing: 1.5px;
+  text-align: center;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+.cfg-modal-lock {
+  text-align: center;
+  font-size: 36px;
+  margin-bottom: 16px;
+}
+#cfg-pwd-input {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--bd2);
+  color: var(--txbr);
+  font-family: var(--mono);
+  font-size: 16px;
+  padding: 11px 14px;
+  border-radius: var(--r);
+  outline: none;
+  text-align: center;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+  transition: border-color .15s;
+}
+#cfg-pwd-input:focus { border-color: var(--A); box-shadow: 0 0 0 2px rgba(0,212,255,.1); }
+#cfg-pwd-err {
+  display: none;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--R);
+  text-align: center;
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+}
+.cfg-modal-btns {
+  display: flex;
+  gap: 9px;
+}
+</style>
+</head>
+<body>
+
+<div id="hdr">
+  <div class="logo"><div class="pulse"></div>SIGT<div class="logo-sub">TÉCNICOS SAT · GRUPO AC</div></div>
+  <div class="hdr-r">
+    <div class="hdr-tec" id="hdr-tec">Sin ID</div>
+    <div class="hdr-clk" id="hdr-clk">--:--</div>
+  </div>
+</div>
+
+<div id="tabs">
+  <button class="tab on"  onclick="goTab('inc')">📋 Incidencia</button>
+  <button class="tab"     onclick="goTab('trab')">⚡ Trabajo</button>
+  <button class="tab"     onclick="goTab('inf')">🔧 Informe</button>
+  <button class="tab"     onclick="goTab('env')">📤 Enviar</button>
+  <button class="tab"     onclick="App.openCfg()">⚙️ Config</button>
+</div>
+
+<div id="view">
+
+<!-- ═══ TAB 1: INCIDENCIA ═══════════════════ -->
+<div class="pg on" id="pg-inc">
+
+  <div class="card">
+    <div class="card-h"><div class="card-t">👤 Datos del técnico</div></div>
+    <div class="card-b">
+      <div class="g2">
+        <div class="f"><label>Nombre / ID técnico *</label>
+          <input id="tec-name" placeholder="Tu nombre completo" oninput="App.setTec(this.value)">
+        </div>
+        <div class="f"><label>Teléfono técnico</label>
+          <input id="tec-tel" type="tel" placeholder="+34 6XX XXX XXX">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-h">
+      <div class="card-t">📲 Mensaje WhatsApp de la incidencia</div>
+      <button class="btn bP sm" onclick="App.parseWA()">⚡ Extraer</button>
+    </div>
+    <div class="card-b">
+      <div class="paste-zone">
+        <textarea id="wa-paste" placeholder="📋 Pega aquí el mensaje WhatsApp de incidencia recibido...
+
+Ejemplo:
+🚨 INCIDENCIA SIGT 🚨
+📋 Ticket: TK-LOCAL-260217-9021
+🔴 Prioridad: S3 — NORMAL
+🔧 Tipo: 🛡️ C12 · Daño Físico
+📍 Salón: Julita
+🎰 Máquina: Pepita
+🔢 Serie: 987889
+⚠️ Síntoma: Líquido vertido sobre máquina
+..."></textarea>
+      </div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--tx2);margin-top:6px;letter-spacing:1px;">
+        Pega el mensaje → toca ⚡ Extraer → los campos se rellenan automáticamente
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULTADO PARSED -->
+  <div class="card" id="parsed-card" style="display:none">
+    <div class="card-h">
+      <div class="card-t" style="color:var(--G)">✅ Incidencia cargada</div>
+      <span id="sev-badge"></span>
+    </div>
+    <div class="card-b">
+      <div class="dgrid" id="parsed-grid"></div>
+      <div class="brow">
+        <button class="btn bW" onclick="App.clearParsed()">✕ Limpiar</button>
+        <button class="btn bG" style="flex:2" onclick="App.confirm()">⚡ CONFIRMAR → TRABAJO</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MANUAL -->
+  <div class="card">
+    <div class="card-h">
+      <div class="card-t">✏️ Entrada manual</div>
+      <button class="btn bW sm" onclick="toggleEl('manual-b')">Mostrar / ocultar</button>
+    </div>
+    <div class="card-b" id="manual-b" style="display:none">
+      <div class="g2">
+        <div class="f"><label>Ticket / ID</label><input id="m-tk" placeholder="TK-..."></div>
+        <div class="f"><label>Prioridad</label>
+          <select id="m-sev">
+            <option value="">—</option>
+            <option value="S1">🔴 S1 · Crítica</option>
+            <option value="S2">🟡 S2 · Alta</option>
+            <option value="S3">🟢 S3 · Normal</option>
+          </select>
+        </div>
+      </div>
+      <div class="g2">
+        <div class="f"><label>Salón / Sala</label><input id="m-salon" placeholder="Nombre del salón"></div>
+        <div class="f"><label>Máquina</label><input id="m-maq" placeholder="Modelo / nombre"></div>
+      </div>
+      <div class="g2">
+        <div class="f"><label>Nº Serie</label><input id="m-serie" placeholder="S/N"></div>
+        <div class="f"><label>Tipo avería</label><input id="m-tipo" placeholder="C12 · Daño Físico..."></div>
+      </div>
+      <div class="f"><label>Síntoma</label><textarea id="m-sint" style="min-height:60px" placeholder="Describe el síntoma..."></textarea></div>
+      <div class="g2">
+        <div class="f"><label>Empleado sala</label><input id="m-emp" placeholder="Nombre"></div>
+        <div class="f"><label>Tel. sala</label><input id="m-tel" placeholder="Teléfono"></div>
+      </div>
+      <button class="btn bG full" onclick="App.loadManual()">✓ Cargar incidencia manual</button>
+    </div>
+  </div>
+
+</div><!-- /pg-inc -->
+
+
+<!-- ═══ TAB 2: TRABAJO ═══════════════════════ -->
+<div class="pg" id="pg-trab">
+
+  <div class="empty" id="trab-empty">
+    <div class="ei">⚠️</div>
+    <div class="et">Primero carga una incidencia</div>
+  </div>
+
+  <div id="trab-content" style="display:none">
+
+    <div class="card" id="trab-inc-card">
+      <div class="card-h">
+        <div class="card-t">📋 <span id="t-ticket">—</span></div>
+        <span id="t-sevbadge"></span>
+      </div>
+      <div class="card-b">
+        <div class="dgrid" id="trab-grid"></div>
+      </div>
+    </div>
+
+    <div class="tmr-wrap">
+      <div id="tmr">00:00:00</div>
+      <div class="tmr-lbl">TIEMPO DE INTERVENCIÓN</div>
+      <div class="tmr-sub" id="tmr-sub"></div>
+    </div>
+
+    <div id="before-start">
+      <div class="al ai">ℹ️ Pulsa cuando estés en el local y listo para empezar</div>
+      <button class="btn bG full" style="padding:16px;font-size:14px;letter-spacing:2px" onclick="App.startWork()">
+        ▶ INICIAR REPARACIÓN
+      </button>
+    </div>
+
+    <div id="after-start" style="display:none">
+      <div class="al ag">✅ Reparación en curso — tiempo registrándose</div>
+      <div class="brow">
+        <button class="btn bP" style="flex:2" onclick="goTab('inf')">📝 Rellenar informe</button>
+        <button class="btn bR" onclick="App.stopWork()">⏹ Detener</button>
+      </div>
+    </div>
+
+    <!-- MEDIA -->
+    <div class="card" style="margin-top:12px">
+      <div class="card-h">
+        <div class="card-t">📸 Evidencias</div>
+        <span id="media-cnt" style="font-family:var(--mono);font-size:11px;color:var(--tx2)">0 archivos</span>
+      </div>
+      <div class="card-b">
+        <div class="mgrid" id="mgrid">
+          <label class="madd" for="mf-cam"><span>📷</span><span>Foto</span></label>
+          <label class="madd" for="mf-vid"><span>🎥</span><span>Vídeo</span></label>
+          <label class="madd" for="mf-any"><span>📎</span><span>Archivo</span></label>
+        </div>
+        <input type="file" id="mf-cam" accept="image/*" capture="environment" style="display:none" onchange="App.addMedia(this)">
+        <input type="file" id="mf-vid" accept="video/*" capture="environment" style="display:none" onchange="App.addMedia(this)">
+        <input type="file" id="mf-any" accept="image/*,video/*" multiple style="display:none" onchange="App.addMedia(this)">
+      </div>
+    </div>
+
+  </div>
+</div><!-- /pg-trab -->
+
+
+<!-- ═══ TAB 3: INFORME ═══════════════════════ -->
+<div class="pg" id="pg-inf">
+  <div class="card">
+    <div class="card-h">
+      <div class="card-t">🔧 Parte técnico</div>
+      <span id="inf-tmr" style="font-family:var(--mono);font-size:12px;color:var(--G)">⏱ 00:00:00</span>
+    </div>
+    <div class="card-b">
+
+      <div class="dv"><span class="dn">1</span> Equipo</div>
+      <div class="g2">
+        <div class="f"><label>Estado a la llegada</label>
+          <select id="r-llegada">
+            <option value="">—</option><option>Encendida</option><option>Apagada</option>
+            <option>Bloqueada</option><option>Intermitente</option><option>Abierta/manipulada</option>
+          </select>
+        </div>
+        <div class="f"><label>Plataforma / PCB</label><input id="r-pcb" placeholder="Plataforma"></div>
+      </div>
+      <div class="g2">
+        <div class="f"><label>SW / ROM versión</label><input id="r-sw" placeholder="v2.3.1..."></div>
+        <div class="f"><label>Periféricos</label><input id="r-peri" placeholder="Impresora, lector..."></div>
+      </div>
+
+      <div class="dv"><span class="dn">2</span> Inspección visual</div>
+      <div class="f"><label>Hallazgos visuales</label>
+        <div class="cg" id="chk-visual"></div>
+      </div>
+      <div class="f"><label>Olfato / temperatura</label>
+        <div class="cg" id="chk-olfato"></div>
+      </div>
+      <div class="f"><label>Conectores / cableado</label>
+        <div class="cg" id="chk-conect"></div>
+      </div>
+      <div class="f">
+        <label>Detalle hallazgos</label>
+        <textarea id="r-hall" placeholder="Describe los hallazgos al abrir / inspeccionar..."></textarea>
+        <button class="mic" id="mic-r-hall" onclick="App.toggleMic('r-hall')"><span>🎤</span><span>Dictado — Hallazgos</span></button>
+      </div>
+
+      <div class="dv"><span class="dn">3</span> Mediciones eléctricas</div>
+      <div class="g3">
+        <div class="f"><label>AC (Vac)</label><input id="r-ac" type="number" placeholder="—"></div>
+        <div class="f"><label>5V DC</label><input id="r-5v" type="number" placeholder="—"></div>
+        <div class="f"><label>12V DC</label><input id="r-12v" type="number" placeholder="—"></div>
+      </div>
+      <div class="g3">
+        <div class="f"><label>24V DC</label><input id="r-24v" type="number" placeholder="—"></div>
+        <div class="f"><label>T° PSU °C</label><input id="r-tpsu" type="number" placeholder="—"></div>
+        <div class="f"><label>T° CPU °C</label><input id="r-tcpu" type="number" placeholder="—"></div>
+      </div>
+
+      <div class="dv"><span class="dn">4</span> Diagnóstico</div>
+      <div class="g2">
+        <div class="f"><label>Categoría</label>
+          <select id="r-cat">
+            <option value="">—</option><option>PWR · Alimentación</option><option>VID · Vídeo</option>
+            <option>AUD · Audio</option><option>IO · Controles</option><option>SEN · Sensores</option>
+            <option>MEC · Mecánica</option><option>THM · Térmico</option><option>COM · Comunicaciones</option>
+            <option>SW · Software</option><option>CAB · Cableado</option><option>MON · Monética</option><option>OTR · Otra</option>
+          </select>
+        </div>
+        <div class="f"><label>Subtipo</label>
+          <select id="r-sub">
+            <option value="">—</option><option>No arranca</option><option>Reset</option>
+            <option>Sin imagen</option><option>Sin sonido</option><option>No responde</option>
+            <option>Atasco</option><option>Sensor</option><option>Comms</option>
+            <option>Config</option><option>Conector</option><option>Temp alta</option><option>Otro</option>
+          </select>
+        </div>
+      </div>
+      <div class="g2">
+        <div class="f"><label>Causa raíz</label>
+          <select id="r-causa">
+            <option value="">—</option><option>Desgaste</option><option>Suciedad</option>
+            <option>Vibración</option><option>Humedad</option><option>Líquidos</option>
+            <option>Sobretensión</option><option>Ventilación</option><option>Error humano</option>
+            <option>Componente</option><option>Cableado</option><option>Config/SW</option>
+            <option>Vandalismo</option><option>Otra</option>
+          </select>
+        </div>
+        <div class="f"><label>Certeza</label>
+          <select id="r-certeza">
+            <option value="">—</option><option>Confirmado</option><option>Probable</option><option>Hipótesis</option>
+          </select>
+        </div>
+      </div>
+      <div class="f">
+        <label>Diagnóstico técnico</label>
+        <textarea id="r-diag" placeholder="Descripción técnica detallada..."></textarea>
+        <button class="mic" id="mic-r-diag" onclick="App.toggleMic('r-diag')"><span>🎤</span><span>Dictado — Diagnóstico</span></button>
+      </div>
+
+      <div class="dv"><span class="dn">5</span> Intervenciones</div>
+      <div id="acciones-wrap"></div>
+
+      <div class="dv"><span class="dn">6</span> Repuestos y consumibles</div>
+      <div class="g2">
+        <div class="f"><label>Repuesto 1</label><input id="r-rep1" placeholder="Descripción"></div>
+        <div class="f"><label>P/N · Cant.</label><input id="r-rep1pn" placeholder="P/N · Cant"></div>
+      </div>
+      <div class="g2">
+        <div class="f"><label>Repuesto 2</label><input id="r-rep2" placeholder="Descripción"></div>
+        <div class="f"><label>P/N · Cant.</label><input id="r-rep2pn" placeholder="P/N · Cant"></div>
+      </div>
+      <div class="f"><label>Consumibles</label><div class="cg" id="chk-cons"></div></div>
+
+      <div class="dv"><span class="dn">7</span> Pruebas finales</div>
+      <div class="cg" id="chk-tests"></div>
+
+      <div class="dv"><span class="dn">8</span> Cierre</div>
+      <div class="g2">
+        <div class="f"><label>Resultado final</label>
+          <select id="r-res">
+            <option value="">—</option><option>Resuelto</option><option>Resuelto temporal</option>
+            <option>No resuelto</option><option>Pendiente repuesto</option><option>Derivado OEM</option>
+          </select>
+        </div>
+        <div class="f"><label>Dificultad (1–5)</label>
+          <select id="r-dif">
+            <option value="">—</option><option>1 · Muy fácil</option><option>2 · Fácil</option>
+            <option>3 · Normal</option><option>4 · Difícil</option><option>5 · Muy difícil</option>
+          </select>
+        </div>
+      </div>
+      <div class="f">
+        <label>Observaciones de cierre</label>
+        <textarea id="r-obs" placeholder="Estado del equipo, condiciones, notas finales..."></textarea>
+        <button class="mic" id="mic-r-obs" onclick="App.toggleMic('r-obs')"><span>🎤</span><span>Dictado — Observaciones</span></button>
+      </div>
+      <div class="f"><label>¿Qué lo resolvió? (frase concreta)</label>
+        <input id="r-fix" placeholder="Ej: Sustitución condensadores PSU...">
+      </div>
+      <div class="f"><label>Lección / Tip base de conocimiento</label>
+        <input id="r-lesson" placeholder="Tip técnico para futuros casos...">
+      </div>
+
+      <div class="dv"><span class="dn">✓</span> Cumplimiento normativo</div>
+      <div class="al ay">⚠️ Confirma haber respetado la normativa durante la intervención</div>
+      <div class="cg" id="chk-comp" style="flex-direction:column;align-items:flex-start"></div>
+
+      <div class="brow" style="margin-top:20px">
+        <button class="btn bW" onclick="goTab('trab')">← Trabajo</button>
+        <button class="btn bP" style="flex:2" onclick="App.buildPreview()">👁 Previsualizar y enviar</button>
+      </div>
+
+    </div>
+  </div>
+</div><!-- /pg-inf -->
+
+
+<!-- ═══ TAB 4: ENVIAR ════════════════════════ -->
+<div class="pg" id="pg-env">
+  <div class="card">
+    <div class="card-h"><div class="card-t">📤 Informe final</div></div>
+    <div class="card-b">
+      <div class="al ai" id="env-hint">ℹ️ Genera el informe desde la pestaña 🔧 Informe</div>
+      <pre class="wabox" id="wa-prev" style="display:none"></pre>
+
+      <div id="env-media" style="display:none;margin-top:12px">
+        <div class="dv">Adjuntos (<span id="env-mcnt">0</span>)</div>
+        <div class="mgrid" id="env-mgrid"></div>
+      </div>
+
+      <div id="env-btns" style="display:none">
+        <div class="brow" style="margin-top:14px">
+          <button class="btn bW" onclick="goTab('inf')">← Editar</button>
+          <button class="btn bP" id="btn-sheets" onclick="App.sendSheets()" style="flex:1">
+            📊 Guardar en Sheets
+          </button>
+        </div>
+        <button class="btn bG full" style="margin-top:9px;padding:13px;font-size:13px;letter-spacing:2px" onclick="App.sendWA()">
+          📱 ENVIAR WHATSAPP + 📊 GUARDAR SHEETS
+        </button>
+        <div class="al ay" id="env-close-note" style="margin-top:12px;display:none"></div>
+        <div id="dbg-panel" style="display:none;margin-top:10px">
+          <div style="font-family:var(--mono);font-size:10px;color:var(--tx2);margin-bottom:4px">DEBUG · URLs enviadas al Sheets:</div>
+          <div id="dbg-url1" style="background:var(--bg);border:1px solid var(--bd);border-radius:var(--r);padding:8px;font-family:var(--mono);font-size:10px;color:var(--A);word-break:break-all;margin-bottom:6px;line-height:1.5"></div>
+          <div id="dbg-url2" style="background:var(--bg);border:1px solid var(--bd);border-radius:var(--r);padding:8px;font-family:var(--mono);font-size:10px;color:var(--G);word-break:break-all;line-height:1.5"></div>
+          <div id="dbg-status" style="font-family:var(--mono);font-size:11px;margin-top:6px;color:var(--Y)"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- /pg-env -->
+
+
+<!-- ═══ TAB 5: CONFIG ════════════════════════ -->
+<div class="pg" id="pg-cfg">
+  <div class="card">
+    <div class="card-h"><div class="card-t">⚙️ Configuración Google Sheets</div></div>
+    <div class="card-b">
+      <div class="al ai">Los partes técnicos se guardan en <strong>SIGT_Proceso</strong> (hojas REGISTRO e INFORMES) mediante un Google Apps Script.</div>
+
+      <div class="f" style="margin-top:12px">
+        <label>URL Apps Script · SIGT_Proceso</label>
+        <input type="url" id="cfg-url" placeholder="https://script.google.com/macros/s/.../exec" oninput="App.saveUrl(this.value)">
+        <div class="url-ok" id="url-ok" style="display:none"></div>
+      </div>
+      <div class="brow">
+        <button class="btn bP sm" onclick="App.testScript()">🔌 Probar conexión</button>
+        <button class="btn bY sm" onclick="App.testWrite()">📝 Probar escritura</button>
+        <button class="btn bW sm" onclick="App.clearUrl()">✕ Borrar</button>
+      </div>
+      <div id="test-result" style="display:none;margin-top:10px;background:var(--bg);border:1px solid var(--bd2);border-radius:var(--r);padding:10px;font-family:var(--mono);font-size:11px;color:var(--G);word-break:break-all;line-height:1.6"></div>
+
+      <div class="dv">Instrucciones</div>
+      <div style="background:var(--bg);border:1px solid var(--bd);border-radius:var(--r);padding:13px">
+        <div class="cfg-step"><div class="csn">1</div><div>Abre el fichero <strong>SIGT_Proceso</strong> en Google Sheets</div></div>
+        <div class="cfg-step"><div class="csn">2</div><div>Ve a <span class="cp">Extensiones</span> → <span class="cp">Apps Script</span></div></div>
+        <div class="cfg-step"><div class="csn">3</div><div>Borra el código existente y pega el código de abajo</div></div>
+        <div class="cfg-step"><div class="csn">4</div><div><span class="cp">Implementar</span> → <span class="cp">Nueva implementación</span> → Tipo: <strong>Aplicación web</strong></div></div>
+        <div class="cfg-step"><div class="csn">5</div><div>Ejecutar como: <strong>Yo (tu cuenta)</strong> · Acceso: <strong>Cualquier persona</strong></div></div>
+        <div class="cfg-step"><div class="csn">6</div><div>Copia la URL y pégala en el campo de arriba</div></div>
+      </div>
+
+      <div class="dv">Código del Apps Script</div>
+      <div style="position:relative">
+        <pre class="code" id="script-code"></pre>
+        <button class="btn bP sm" style="position:absolute;top:8px;right:8px" onclick="App.copyScript()">📋 Copiar código</button>
+      </div>
+    </div>
+  </div>
+</div><!-- /pg-cfg -->
+
+</div><!-- /view -->
+
+<!-- FLOAT TIMER BAR -->
+<div id="ftbar">
+  <div>
+    <div class="ftlbl" id="ft-lbl">REPARACIÓN EN CURSO</div>
+    <div style="font-family:var(--mono);font-size:11px;color:var(--A)" id="ft-tec">—</div>
+  </div>
+  <div id="ftval">00:00:00</div>
+  <button class="btn bW sm" onclick="goTab('trab')">Ver ▶</button>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════
+// CONSTANTS
+// ═══════════════════════════════════════════════
+const WA_NUM = '34646365886';
+
+const CHK_DATA = {
+  visual:   ['Quemado','Hollín','Sulfatación','Líquidos','Comp. rotos','Vent. obstruida'],
+  olfato:   ['Olor quemado','Olor químico','Sin olores','Normal','Caliente anormal'],
+  conect:   ['OK','Flojos','Invertidos','Pines dañados','Arnés pellizcado','Masa dudosa'],
+  cons:     ['Bridas','Terminales','Estaño','Limpia-contactos','Lubricante','Tornillería'],
+  tests:    ['Arranca OK','Sin errores','Estable 10min','Controles OK','Vídeo OK','Audio OK','Test menú OK','10 ciclos real'],
+  comp:     ['No bypass seguridad/monética','No manipulación contadores','No firmware no autorizado','No puentes en fusibles/termostatos']
+};
+
+const SCRIPT_CODE = `// SIGT_Proceso · Apps Script v9
+// Implementar → App web · Ejecutar como: Yo · Acceso: Cualquier persona
+
+function doGet(e) {
+  try {
+    var p = e.parameter || {};
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+
+    if (p.accion === 'registro') {
+      var s1 = ss.getSheetByName('REGISTRO') || ss.insertSheet('REGISTRO');
+      if (s1.getLastRow() === 0) {
+        s1.appendRow(['TIMESTAMP','TICKET','TÉCNICO','TEL_TEC','SALÓN','MÁQUINA',
+          'SERIE','TIPO_AVERÍA','SEVERIDAD','SÍNTOMA','EMPLEADO_SALA','TEL_SALA',
+          'HORA_INICIO','HORA_FIN','DURACIÓN_MIN','CATEGORÍA','CAUSA_RAÍZ',
+          'DIAGNÓSTICO','RESULTADO','DIFICULTAD','LECCIÓN']);
+        s1.getRange(1,1,1,21).setFontWeight('bold')
+          .setBackground('#0a2e1a').setFontColor('#00e676');
+        s1.setFrozenRows(1);
+      }
+      s1.appendRow([
+        new Date().toLocaleString('es-ES'),
+        p.ticket, p.tecnico, p.telTec,
+        p.salon, p.maquina, p.serie,
+        p.tipoAveria, p.severidad, p.sintoma,
+        p.empleado, p.telSala,
+        p.horaInicio, p.horaFin, p.durMin,
+        p.categoria, p.causaRaiz, p.diagnostico,
+        p.resultado, p.dificultad, p.leccion
+      ]);
+      var lr = s1.getLastRow();
+      var sev = (p.severidad||'').toUpperCase();
+      s1.getRange(lr,1,1,21).setBackground(
+        sev==='S1'?'#3a1a1a':sev==='S2'?'#3a341a':'#1a2a3a');
+      return out({ok:true, accion:'registro', ticket:p.ticket});
+    }
+
+    if (p.accion === 'informe') {
+      var s2 = ss.getSheetByName('INFORMES') || ss.insertSheet('INFORMES');
+      if (s2.getLastRow() === 0) {
+        s2.appendRow(['TIMESTAMP','TICKET','TÉCNICO','INFORME_COMPLETO']);
+        s2.getRange(1,1,1,4).setFontWeight('bold')
+          .setBackground('#0a2e1a').setFontColor('#00e676');
+        s2.setFrozenRows(1);
+        s2.setColumnWidth(4, 700);
+      }
+      s2.appendRow([
+        new Date().toLocaleString('es-ES'),
+        p.ticket, p.tecnico, p.informe
+      ]);
+      return out({ok:true, accion:'informe', ticket:p.ticket});
+    }
+
+    return out({ok:true, msg:'SIGT v9 activo'});
+  } catch(err) {
+    return out({ok:false, error:err.message});
+  }
+}
+
+function doPost(e) {
+  return doGet(e);
+}
+
+function out(obj) {
+  return ContentService.createTextOutput(JSON.stringify(obj))
+    .setMimeType(ContentService.MimeType.JSON);
+}`
+
+// ═══════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════
+const S = {
+  tec: localStorage.getItem('sigt_tec') || '',
+  inc: null,
+  timerSec: 0,
+  running: false,
+  interval: null,
+  startTime: null,
+  startLabel: '',
+  endLabel: '',
+  media: [],
+  micTarget: null,
+  recognition: null,
+  scriptUrl: 'https://script.google.com/macros/s/AKfycbxVj4ai7j2n6ARJIFBiVfYQoaH9B4zL82KSAIdJyLH8hDP5JJ3VlYhPFZmPXULju5zKkw/exec',
+  reportText: '',
+  reportReady: false,
+  sheetsSaved: false
+};
+
+// ═══════════════════════════════════════════════
+// APP
+// ═══════════════════════════════════════════════
+const App = {
+
+  setTec(v) {
+    S.tec = v.trim();
+    document.getElementById('hdr-tec').textContent = S.tec || 'Sin ID';
+    localStorage.setItem('sigt_tec', S.tec);
+  },
+
+  // ── PARSE WHATSAPP ──────────────────────────
+  parseWA() {
+    const raw = (document.getElementById('wa-paste').value || '').trim();
+    if (!raw) { toast('Pega el mensaje WhatsApp primero', 'warn'); return; }
+
+    // Extract value after emoji+label pattern
+    const line = (emoji, label) => {
+      const patterns = [
+        new RegExp(escRe(emoji) + '\\s*' + escRe(label) + ':?\\s*(.+)'),
+        new RegExp(escRe(emoji) + '\\s*(.+)')
+      ];
+      for (const p of patterns) {
+        const m = raw.match(p);
+        if (m) return m[1].trim();
+      }
+      return '';
+    };
+
+    const ticket   = line('📋','Ticket');
+    const prior    = line('🔴','Prioridad') || line('🟡','Prioridad') || line('🟢','Prioridad') || line('🔴','') || line('🟡','') || line('🟢','');
+    const tipo     = line('🔧','Tipo');
+    const salon    = line('📍','Salón');
+    const maquina  = line('🎰','Máquina');
+    const serie    = line('🔢','Serie');
+    const sintoma  = line('⚠️','Síntoma');
+    const recaud   = line('💰','Recaudación afectada');
+    const inicio   = line('🕐','Inicio');
+    const empleado = line('👤','Empleado');
+    const telPers  = line('📱','Tel. personal');
+    const telSala  = line('📞','Tel. sala');
+    const hora     = line('⏰','Hora');
+
+    if (!salon && !sintoma && !ticket) {
+      toast('Formato no reconocido — ¿está completo el mensaje?', 'err'); return;
+    }
+
+    // Severity
+    let sev = 'S3';
+    const pr = prior.toUpperCase();
+    if (pr.includes('S1') || pr.includes('CRÍTICA') || pr.includes('CRITICA')) sev='S1';
+    else if (pr.includes('S2') || pr.includes('ALTA')) sev='S2';
+
+    S.inc = { ticket, prior, sev, tipo, salon, maquina, serie, sintoma, recaud, inicio, empleado, telPers, telSala, hora, raw };
+    this._showParsed();
+    toast('✅ Datos extraídos correctamente', 'ok');
+  },
+
+  _showParsed() {
+    const i = S.inc;
+    document.getElementById('parsed-card').style.display = '';
+    const cls = {S1:'s1',S2:'s2',S3:'s3'}[i.sev]||'s3';
+    document.getElementById('sev-badge').innerHTML = `<span class="sev ${cls}">${i.sev}</span>`;
+    const rows = [
+      ['TICKET',  i.ticket],['PRIORIDAD',i.prior],['TIPO',    i.tipo],
+      ['SALÓN',   i.salon], ['MÁQUINA',  i.maquina],['N/S',   i.serie],
+      ['SÍNTOMA', i.sintoma],['EMPLEADO',i.empleado],['TEL. SALA',i.telSala],
+      ['HORA',    i.hora]
+    ].filter(r=>r[1]);
+    document.getElementById('parsed-grid').innerHTML = rows.map(([k,v]) =>
+      `<div class="drow"><span class="dk">${k}</span><span class="dv ${k==='SÍNTOMA'?'hi':''}">${v}</span></div>`
+    ).join('');
+  },
+
+  clearParsed() {
+    S.inc = null;
+    document.getElementById('parsed-card').style.display = 'none';
+    document.getElementById('wa-paste').value = '';
+  },
+
+  confirm() {
+    if (!S.tec) { toast('Introduce tu nombre de técnico primero', 'warn'); return; }
+    if (!S.inc) { toast('No hay incidencia cargada', 'err'); return; }
+    this._renderTrab();
+    goTab('trab');
+    toast('✅ Incidencia asignada → listo para iniciar', 'ok');
+  },
+
+  // ── MANUAL ──────────────────────────────────
+  loadManual() {
+    const salon = v('m-salon'), sintoma = v('m-sint');
+    if (!salon && !sintoma) { toast('Rellena al menos salón y síntoma', 'warn'); return; }
+    S.inc = {
+      ticket: v('m-tk') || 'MAN-'+Date.now(),
+      sev: v('m-sev') || 'S3', prior: v('m-sev') || 'S3',
+      tipo: v('m-tipo'), salon, maquina: v('m-maq'),
+      serie: v('m-serie'), sintoma, empleado: v('m-emp'),
+      telSala: v('m-tel'), hora: new Date().toLocaleString('es-ES'), raw: ''
+    };
+    this._showParsed();
+    document.getElementById('parsed-card').style.display = '';
+    this._renderTrab();
+    goTab('trab');
+    toast('Incidencia manual cargada', 'ok');
+  },
+
+  // ── TRAB ────────────────────────────────────
+  _renderTrab() {
+    const i = S.inc;
+    document.getElementById('trab-empty').style.display = 'none';
+    document.getElementById('trab-content').style.display = '';
+    document.getElementById('t-ticket').textContent = i.ticket || '—';
+    const cls = {S1:'s1',S2:'s2',S3:'s3'}[i.sev]||'s3';
+    document.getElementById('t-sevbadge').innerHTML = `<span class="sev ${cls}">${i.sev}</span>`;
+    const rows = [
+      ['SALÓN',   i.salon],['MÁQUINA',i.maquina],['N/S',i.serie],
+      ['SÍNTOMA', i.sintoma],['TIPO',i.tipo],
+      ['EMPLEADO',i.empleado+(i.telSala?' · '+i.telSala:'')]
+    ].filter(r=>r[1]);
+    document.getElementById('trab-grid').innerHTML = rows.map(([k,v_]) =>
+      `<div class="drow"><span class="dk">${k}</span><span class="dv">${v_}</span></div>`
+    ).join('');
+  },
+
+  startWork() {
+    if (!S.inc) { toast('No hay incidencia activa', 'err'); return; }
+    S.running = true; S.timerSec = 0;
+    S.startTime = new Date();
+    S.startLabel = S.startTime.toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+    document.getElementById('tmr').classList.add('run');
+    document.getElementById('before-start').style.display = 'none';
+    document.getElementById('after-start').style.display = '';
+    document.getElementById('tmr-sub').textContent = 'Inicio: ' + S.startLabel;
+    document.getElementById('ftbar').classList.add('show');
+    document.getElementById('ft-tec').textContent = S.tec;
+
+    S.interval = setInterval(() => {
+      S.timerSec++;
+      const t = fmt(S.timerSec);
+      document.getElementById('tmr').textContent = t;
+      document.getElementById('ftval').textContent = t;
+      document.getElementById('inf-tmr').textContent = '⏱ ' + t;
+    }, 1000);
+
+    // Send start event to Sheets
+    if (S.scriptUrl) this._postSheets({ ticket: S.inc.ticket, tecnico: S.tec, salon: S.inc.salon, horaInicio: S.startLabel, resultado: 'EN CURSO', informe: '(en curso)' });
+    toast('⏱ Reparación iniciada · ' + S.startLabel, 'ok');
+  },
+
+  stopWork() {
+    if (!confirm('¿Detener el cronómetro?')) return;
+    clearInterval(S.interval); S.running = false;
+    document.getElementById('tmr').classList.remove('run');
+    document.getElementById('ftbar').classList.remove('show');
+    toast('Cronómetro detenido', 'warn');
+  },
+
+  // ── MEDIA ────────────────────────────────────
+  addMedia(input) {
+    Array.from(input.files).forEach(f => {
+      const r = new FileReader();
+      r.onload = e => { S.media.push({type:f.type.startsWith('video')?'video':'image',src:e.target.result,name:f.name}); App._renderMedia(); };
+      r.readAsDataURL(f);
+    });
+    input.value = '';
+  },
+  _renderMedia() {
+    const g = document.getElementById('mgrid');
+    g.innerHTML = S.media.map((m,i)=>
+      `<div class="mthumb">${m.type==='video'?`<video src="${m.src}" muted>`:`<img src="${m.src}" alt="">`}<button class="mdel" onclick="App.removeMedia(${i})">×</button></div>`
+    ).join('') +
+    `<label class="madd" for="mf-cam"><span>📷</span><span>Foto</span></label>
+     <label class="madd" for="mf-vid"><span>🎥</span><span>Vídeo</span></label>
+     <label class="madd" for="mf-any"><span>📎</span><span>Archivo</span></label>`;
+    document.getElementById('media-cnt').textContent = S.media.length + ' archivos';
+  },
+  removeMedia(i) { S.media.splice(i,1); this._renderMedia(); },
+
+  // ── SPEECH ───────────────────────────────────
+  toggleMic(fid) {
+    const btn = document.getElementById('mic-'+fid);
+    if (!btn) return;
+    if (S.micTarget === fid && S.recognition) {
+      S.recognition.stop(); S.micTarget = null;
+      btn.classList.remove('on'); btn.lastElementChild.textContent = 'Dictado — ' + fid.replace('r-',''); return;
+    }
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) { toast('Dictado no disponible en este navegador', 'warn'); return; }
+    if (S.recognition) S.recognition.stop();
+    S.recognition = new SR(); S.recognition.lang='es-ES'; S.recognition.continuous=true; S.recognition.interimResults=false;
+    S.micTarget = fid; btn.classList.add('on'); btn.lastElementChild.textContent = '🔴 Escuchando... (toca para parar)';
+    S.recognition.onresult = ev => {
+      const t = Array.from(ev.results).map(r=>r[0].transcript).join(' ');
+      const el = document.getElementById(fid);
+      if (el) el.value = (el.value ? el.value+' ' : '') + t;
+    };
+    S.recognition.onend = () => { btn.classList.remove('on'); btn.lastElementChild.textContent='Dictado — '+fid.replace('r-',''); S.micTarget=null; };
+    S.recognition.start();
+    toast('🎤 Dictado activo', 'ok');
+  },
+
+  // ── BUILD PREVIEW ────────────────────────────
+  buildPreview() {
+    const i = S.inc || {};
+    const dur = fmt(S.timerSec);
+    const now = new Date().toLocaleString('es-ES');
+    S.endLabel = new Date().toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+    const g = id => v(id) || '—';
+    const chk = id => getChk(id) || '—';
+    const durMin = Math.round(S.timerSec/60);
+
+    const txt = `🔧 PARTE TÉCNICO SIGT 🔧
+━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 Ticket: ${i.ticket||'—'}
+📅 ${now}
+👨‍🔧 Técnico: ${S.tec||'—'}
+
+📍 UBICACIÓN
+Salón: ${i.salon||'—'}
+Máquina: ${i.maquina||'—'} · S/N: ${i.serie||'—'}
+Tipo: ${i.tipo||'—'}
+Empleado: ${i.empleado||'—'} · Tel: ${i.telSala||'—'}
+
+⚠️ SÍNTOMA
+${i.sintoma||'—'}
+Recaudación: ${i.recaud||'No indicado'}
+
+🔩 EQUIPO
+Estado llegada: ${g('r-llegada')}
+Plataforma: ${g('r-pcb')} · SW: ${g('r-sw')}
+Periféricos: ${g('r-peri')}
+
+🔍 INSPECCIÓN
+${chk('chk-visual')} | ${chk('chk-olfato')}
+Conectores: ${chk('chk-conect')}
+Hallazgos: ${g('r-hall')}
+
+⚡ MEDICIONES
+AC: ${g('r-ac')}V | 5V: ${g('r-5v')} | 12V: ${g('r-12v')} | 24V: ${g('r-24v')}
+T° PSU: ${g('r-tpsu')}°C | T° CPU: ${g('r-tcpu')}°C
+
+🧠 DIAGNÓSTICO
+${g('r-cat')} / ${g('r-sub')} · Causa: ${g('r-causa')}
+Certeza: ${g('r-certeza')}
+${g('r-diag')}
+
+🛠 INTERVENCIONES
+A1: [${g('r-a1t')}] ${g('r-a1d')} → ${g('r-a1r')}
+${v('r-a2t') ? 'A2: ['+g('r-a2t')+'] '+g('r-a2d')+' → '+g('r-a2r') : ''}
+${v('r-a3t') ? 'A3: ['+g('r-a3t')+'] '+g('r-a3d')+' → '+g('r-a3r') : ''}
+
+🔩 REPUESTOS
+${v('r-rep1') ? g('r-rep1')+' P/N: '+g('r-rep1pn') : 'Ninguno'}
+${v('r-rep2') ? g('r-rep2')+' P/N: '+g('r-rep2pn') : ''}
+Consumibles: ${chk('chk-cons')}
+
+✅ PRUEBAS: ${chk('chk-tests')}
+
+🏁 RESULTADO
+${g('r-res')} · Dif: ${g('r-dif')}
+${g('r-obs')}
+⏱ ${dur} (${durMin} min) · Inicio: ${S.startLabel||'—'} → Fin: ${S.endLabel}
+💡 ${g('r-fix')}
+📚 KB: ${g('r-lesson')}
+
+✅ CUMPLIMIENTO: ${chk('chk-comp')}
+━━━━━━━━━━━━━━━━━━━━━━━━━
+${g('r-res')==='Resuelto' ? '✅ RESUELTA · Pendiente confirmación coordinador' : '⏳ PENDIENTE DE RESOLUCIÓN'}`.trim();
+
+    S.reportText = txt; S.reportReady = true;
+    document.getElementById('env-hint').style.display = 'none';
+    document.getElementById('wa-prev').style.display = '';
+    document.getElementById('wa-prev').textContent = txt;
+    document.getElementById('env-btns').style.display = '';
+    const res = v('r-res');
+    const note = document.getElementById('env-close-note');
+    note.style.display = '';
+    note.textContent = res==='Resuelto'
+      ? '✅ Al enviar, la incidencia quedará Pendiente de confirmación del coordinador'
+      : '⏳ La incidencia quedará como Pendiente de resolución';
+
+    if (S.media.length) {
+      document.getElementById('env-media').style.display = '';
+      document.getElementById('env-mcnt').textContent = S.media.length;
+      document.getElementById('env-mgrid').innerHTML = S.media.map((m,idx) =>
+        `<div class="mthumb">${m.type==='video'?`<video src="${m.src}" muted>`:`<img src="${m.src}" alt="">`}</div>`
+      ).join('');
+    }
+    goTab('env');
+    toast('✅ Informe generado', 'ok');
+  },
+
+  // ── SHEETS ───────────────────────────────────
+  sendSheets() {
+    if (!S.scriptUrl) { toast('Configura la URL del Apps Script en ⚙️ Config', 'err'); return; }
+    if (!S.reportReady) { toast('Genera el informe primero', 'warn'); return; }
+    const i = S.inc || {};
+    const durMin = Math.round(S.timerSec/60);
+    const payload = {
+      ticket: i.ticket, tecnico: S.tec,
+      telTec: v('tec-tel')||'—',
+      salon: i.salon, maquina: i.maquina, serie: i.serie,
+      tipoAveria: i.tipo, severidad: i.sev, sintoma: i.sintoma,
+      empleado: i.empleado, telSala: i.telSala,
+      horaInicio: S.startLabel, horaFin: S.endLabel, durMin,
+      categoria: v('r-cat'), causaRaiz: v('r-causa'), diagnostico: v('r-diag'),
+      resultado: v('r-res'), dificultad: v('r-dif'), leccion: v('r-lesson'),
+      informe: S.reportText
+    };
+    const btn = document.getElementById('btn-sheets');
+    btn.disabled = true; btn.textContent = '⏳ Guardando...';
+    this._postSheets(payload, (ok, err) => {
+      btn.disabled = false;
+      if (ok) { btn.textContent = '✅ Guardado en Sheets'; btn.className = 'btn bG'; S.sheetsSaved = true; toast('✅ Guardado en SIGT_Proceso', 'ok'); }
+      else { btn.textContent = '❌ Error — reintentar'; toast('Error Sheets: '+(err||'desconocido'), 'err'); }
+    });
+  },
+
+  _postSheets(data, cb) {
+    if (!S.scriptUrl) { cb && cb(false, 'Sin URL'); return; }
+
+    const base = S.scriptUrl;
+    const str  = v => (v == null ? '' : String(v));
+
+    // Llamada 1: REGISTRO (campos cortos, sin informe)
+    const p1 = new URLSearchParams({
+      accion:     'registro',
+      ticket:     str(data.ticket),
+      tecnico:    str(data.tecnico),
+      telTec:     str(data.telTec),
+      salon:      str(data.salon),
+      maquina:    str(data.maquina),
+      serie:      str(data.serie),
+      tipoAveria: str(data.tipoAveria),
+      severidad:  str(data.severidad),
+      sintoma:    str(data.sintoma),
+      empleado:   str(data.empleado),
+      telSala:    str(data.telSala),
+      horaInicio: str(data.horaInicio),
+      horaFin:    str(data.horaFin),
+      durMin:     str(data.durMin),
+      categoria:  str(data.categoria),
+      causaRaiz:  str(data.causaRaiz),
+      diagnostico:str(data.diagnostico),
+      resultado:  str(data.resultado),
+      dificultad: str(data.dificultad),
+      leccion:    str(data.leccion)
+    });
+
+    // Llamada 2: INFORMES (solo ticket + informe)
+    const p2 = new URLSearchParams({
+      accion:  'informe',
+      ticket:  str(data.ticket),
+      tecnico: str(data.tecnico),
+      informe: str(data.informe).substring(0, 2000) // limitar longitud
+    });
+
+    // Mostrar URLs en panel debug visible
+    const url1 = base + '?' + p1.toString();
+    const url2 = base + '?' + p2.toString();
+    const dbg = document.getElementById('dbg-panel');
+    if (dbg) {
+      dbg.style.display = '';
+      document.getElementById('dbg-url1').textContent = 'REG: ' + url1.substring(0, 300);
+      document.getElementById('dbg-url2').textContent = 'INF: ' + url2.substring(0, 200);
+      document.getElementById('dbg-status').textContent = '⏳ Enviando...';
+    }
+
+    fetch(url1, { method: 'GET', mode: 'no-cors' })
+      .then(() => {
+        if (dbg) document.getElementById('dbg-status').textContent = '✅ REG enviado — enviando INF...';
+        return fetch(url2, { method: 'GET', mode: 'no-cors' });
+      })
+      .then(() => {
+        if (dbg) document.getElementById('dbg-status').textContent = '✅ Ambas peticiones enviadas';
+        cb && cb(true);
+      })
+      .catch(e => {
+        if (dbg) document.getElementById('dbg-status').textContent = '❌ Error: ' + e.message;
+        cb && cb(false, e.message);
+      });
+  },
+
+  sendWA() {
+    if (!S.reportReady) { toast('Genera el informe primero', 'warn'); return; }
+
+    // 1. PARAR RELOJ y registrar hora fin exacta
+    if (S.running) {
+      clearInterval(S.interval);
+      S.running = false;
+    }
+    const now = new Date();
+    S.endLabel = now.toLocaleTimeString('es-ES', {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+    const durMin = Math.round(S.timerSec / 60);
+    const durFmt = fmt(S.timerSec);
+
+    // Actualizar UI del cronómetro
+    document.getElementById('tmr').classList.remove('run');
+    document.getElementById('ftbar').classList.remove('show');
+    document.getElementById('tmr-sub').textContent =
+      'Inicio: ' + (S.startLabel||'—') + '  →  Fin: ' + S.endLabel + '  (' + durFmt + ')';
+
+    // Actualizar texto del informe con hora fin real
+    S.reportText = S.reportText.replace(
+      /→ Fin: [\d:—]+/,
+      '→ Fin: ' + S.endLabel
+    ).replace(
+      /\([\d:]+ \([\d]+ min\)\)/,
+      '(' + durFmt + ' · ' + durMin + ' min)'
+    );
+    // También actualizar preview visible
+    const prev = document.getElementById('wa-prev');
+    if (prev) prev.textContent = S.reportText;
+
+    // 2. GUARDAR EN SHEETS con hora fin real
+    if (S.scriptUrl) {
+      const i = S.inc || {};
+      const payload = {
+        ticket: i.ticket, tecnico: S.tec,
+        telTec: v('tec-tel') || '—',
+        salon: i.salon, maquina: i.maquina, serie: i.serie,
+        tipoAveria: i.tipo, severidad: i.sev, sintoma: i.sintoma,
+        empleado: i.empleado, telSala: i.telSala,
+        horaInicio: S.startLabel,
+        horaFin: S.endLabel,
+        durMin: durMin,
+        categoria: v('r-cat'), causaRaiz: v('r-causa'), diagnostico: v('r-diag'),
+        resultado: v('r-res'), dificultad: v('r-dif'), leccion: v('r-lesson'),
+        informe: S.reportText
+      };
+      this._postSheets(payload, (ok) => {
+        const btn = document.getElementById('btn-sheets');
+        if (ok) {
+          if (btn) { btn.textContent = '✅ Guardado en Sheets'; btn.className = 'btn bG'; }
+          S.sheetsSaved = true;
+          toast('✅ Sheets guardado · WhatsApp enviado · Hora fin: ' + S.endLabel, 'ok');
+        } else {
+          toast('⚠️ WhatsApp enviado · Error al guardar en Sheets', 'warn');
+        }
+      });
+    } else {
+      toast('📱 WhatsApp enviado · Hora fin: ' + S.endLabel, 'ok');
+    }
+
+    // 3. ABRIR WHATSAPP
+    window.open('https://wa.me/' + WA_NUM + '?text=' + encodeURIComponent(S.reportText), '_blank');
+  },
+
+  // ── CONFIG ───────────────────────────────────
+  saveUrl(u) {
+    S.scriptUrl = u.trim(); localStorage.setItem('sigt_url', S.scriptUrl);
+    const el = document.getElementById('url-ok');
+    if (S.scriptUrl) { el.style.display=''; el.textContent=S.scriptUrl; }
+    else el.style.display='none';
+  },
+  clearUrl() {
+    S.scriptUrl=''; localStorage.removeItem('sigt_url');
+    document.getElementById('cfg-url').value='';
+    document.getElementById('url-ok').style.display='none';
+    toast('URL borrada', 'warn');
+  },
+  testScript() {
+    if (!S.scriptUrl) { toast('No hay URL configurada', 'err'); return; }
+    const res = document.getElementById('test-result');
+    res.style.display = ''; res.style.color = 'var(--A)';
+    res.textContent = '⏳ Enviando prueba...';
+    App._postSheets({
+      ticket: 'PING-' + Date.now(), tecnico: 'TEST', salon: 'TEST',
+      maquina: '-', serie: '-', tipoAveria: '-', severidad: 'S3',
+      sintoma: 'PRUEBA CONEXIÓN', resultado: 'TEST',
+      informe: 'ping ' + new Date().toLocaleString('es-ES')
+    }, () => {
+      res.style.color = 'var(--G)';
+      res.textContent = '✅ Request enviado — comprueba hoja REGISTRO en SIGT_Proceso (puede tardar 5-10 seg)';
+      toast('✅ Enviado al Sheets', 'ok');
+    });
+  },
+
+  testWrite() {
+    if (!S.scriptUrl) { toast('No hay URL configurada', 'err'); return; }
+    const res = document.getElementById('test-result');
+    res.style.display = ''; res.style.color = 'var(--A)';
+    res.textContent = '⏳ Enviando fila de prueba completa...';
+    App._postSheets({
+      ticket: 'TEST-' + Date.now(),
+      tecnico: S.tec || 'Técnico Test',
+      telTec: '600000000',
+      salon: 'SALÓN TEST', maquina: 'Máquina Test', serie: 'SN-TEST-001',
+      tipoAveria: 'C02 · Pantalla', severidad: 'S3',
+      sintoma: '🔧 FILA DE PRUEBA — puedes borrarla',
+      empleado: 'Test', telSala: '900000000',
+      horaInicio: new Date().toLocaleTimeString('es-ES'),
+      horaFin: new Date().toLocaleTimeString('es-ES'),
+      durMin: 1,
+      categoria: 'VID · Vídeo', causaRaiz: 'Test',
+      diagnostico: 'Prueba de escritura desde app SIGT Técnicos v5',
+      resultado: 'Resuelto', dificultad: '1 · Muy fácil',
+      leccion: 'Test OK',
+      informe: 'PRUEBA ESCRITURA COMPLETA — ' + new Date().toLocaleString('es-ES')
+    }, (ok) => {
+      res.style.color = ok ? 'var(--G)' : 'var(--R)';
+      res.textContent = ok
+        ? '✅ Enviado — abre SIGT_Proceso y verifica nueva fila en REGISTRO e INFORMES'
+        : '❌ Error al enviar';
+      toast(ok ? '✅ Fila de prueba enviada' : '❌ Error', ok ? 'ok' : 'err');
+    });
+  },
+  copyScript() {
+    const txt = document.getElementById('script-code').textContent;
+    navigator.clipboard.writeText(txt).then(()=>toast('📋 Código copiado','ok')).catch(()=>{
+      const ta=document.createElement('textarea'); ta.value=txt; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); toast('📋 Copiado','ok');
+    });
+  },
+
+  // ── CONFIG ACCESS WITH PASSWORD ──────────────
+  openCfg() {
+    // Show password modal
+    document.getElementById('cfg-modal').style.display = 'flex';
+    document.getElementById('cfg-pwd-input').value = '';
+    document.getElementById('cfg-pwd-err').style.display = 'none';
+    setTimeout(() => document.getElementById('cfg-pwd-input').focus(), 100);
+  },
+
+  submitCfgPwd() {
+    const entered = document.getElementById('cfg-pwd-input').value;
+    const correct = '2633886trastamarawitty@darkcrystalespaña';
+    if (entered === correct) {
+      document.getElementById('cfg-modal').style.display = 'none';
+      goTab('cfg');
+    } else {
+      document.getElementById('cfg-pwd-err').style.display = '';
+      document.getElementById('cfg-pwd-input').value = '';
+      document.getElementById('cfg-pwd-input').focus();
+      // Shake animation
+      const box = document.getElementById('cfg-modal-box');
+      box.style.animation = 'none';
+      void box.offsetHeight;
+      box.style.animation = 'shake 0.4s ease';
+    }
+  },
+
+  closeCfgModal() {
+    document.getElementById('cfg-modal').style.display = 'none';
+  }
+};
+
+// ═══════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════
+function fmt(s) {
+  return [Math.floor(s/3600),Math.floor((s%3600)/60),s%60].map(n=>String(n).padStart(2,'0')).join(':');
+}
+function v(id) { return (document.getElementById(id)||{}).value||''; }
+function escRe(s) { return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); }
+function getChk(id) {
+  return Array.from(document.querySelectorAll('#'+id+' .ck.on')).map(el=>el.dataset.val).join(', ');
+}
+function toast(msg, type='ok') {
+  const el=document.getElementById('toast');
+  el.textContent=msg; el.className='show t'+type;
+  clearTimeout(el._t); el._t=setTimeout(()=>el.className='',3200);
+}
+function goTab(id) {
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.getElementById('pg-'+id).classList.add('on');
+  const idx={inc:0,trab:1,inf:2,env:3,cfg:4};
+  const tabs=[...document.querySelectorAll('.tab')];
+  if (tabs[idx[id]]) tabs[idx[id]].classList.add('on');
+  document.getElementById('view').scrollTop=0;
+}
+function toggleEl(id) {
+  const el=document.getElementById(id);
+  el.style.display=el.style.display==='none'?'':'none';
+}
+
+// ── INIT CHECKBOXES ──────────────────────────
+function initChk(cid, items) {
+  const el=document.getElementById(cid); if(!el)return;
+  el.innerHTML=items.map(val=>
+    `<label class="ck" data-val="${val}" onclick="this.classList.toggle('on')">${val}</label>`
+  ).join('');
+}
+
+// ── INIT ACCIONES ────────────────────────────
+function initAcciones() {
+  const w=document.getElementById('acciones-wrap'); if(!w)return;
+  const tipos=['','Ajuste','Reparación','Sustitución','Limpieza','Re-cableado','Config','Test','Otro'];
+  const ress=['','OK','Parcial','Sin cambio'];
+  w.innerHTML=[1,2,3].map(n=>`
+    <div style="background:var(--bg);border:1px solid var(--bd);border-radius:var(--r);padding:11px 12px;margin-bottom:9px">
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:1.5px;color:var(--A);text-transform:uppercase;margin-bottom:9px">· ACCIÓN ${n}</div>
+      <div class="g2">
+        <div class="f"><label>Tipo</label>
+          <select id="r-a${n}t">${tipos.map(o=>`<option>${o}</option>`).join('')}</select>
+        </div>
+        <div class="f"><label>Resultado</label>
+          <select id="r-a${n}r">${ress.map(o=>`<option>${o}</option>`).join('')}</select>
+        </div>
+      </div>
+      <div class="f"><label>Detalle</label>
+        <input id="r-a${n}d" placeholder="Descripción de la acción...">
+      </div>
+    </div>`).join('');
+}
+
+// ── CLOCK ────────────────────────────────────
+setInterval(()=>{
+  document.getElementById('hdr-clk').textContent=new Date().toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'});
+}, 15000);
+document.getElementById('hdr-clk').textContent=new Date().toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'});
+
+// ── BOOT ─────────────────────────────────────
+(function boot() {
+  initChk('chk-visual',CHK_DATA.visual);
+  initChk('chk-olfato',CHK_DATA.olfato);
+  initChk('chk-conect',CHK_DATA.conect);
+  initChk('chk-cons',  CHK_DATA.cons);
+  initChk('chk-tests', CHK_DATA.tests);
+  initChk('chk-comp',  CHK_DATA.comp);
+  initAcciones();
+  document.getElementById('script-code').textContent = SCRIPT_CODE;
+  // Restaurar técnico
+  if (S.tec) { document.getElementById('tec-name').value=S.tec; document.getElementById('hdr-tec').textContent=S.tec; }
+  // Forzar URL correcta siempre (sobreescribe localStorage)
+  localStorage.setItem('sigt_url', S.scriptUrl);
+  document.getElementById('cfg-url').value = S.scriptUrl;
+  document.getElementById('url-ok').style.display = '';
+  document.getElementById('url-ok').textContent = S.scriptUrl;
+})();
+</script>
+
+<!-- ─── CFG PASSWORD MODAL ─────────────────── -->
+<div id="cfg-modal" onclick="if(event.target===this)App.closeCfgModal()">
+  <div id="cfg-modal-box">
+    <div class="cfg-modal-lock">🔐</div>
+    <div class="cfg-modal-title">ACCESO RESTRINGIDO</div>
+    <div class="cfg-modal-sub">Configuración · Grupo AC</div>
+    <input
+      type="password"
+      id="cfg-pwd-input"
+      placeholder="Contraseña de administrador"
+      onkeydown="if(event.key==='Enter')App.submitCfgPwd();if(event.key==='Escape')App.closeCfgModal()">
+    <div id="cfg-pwd-err">⛔ Contraseña incorrecta</div>
+    <div class="cfg-modal-btns">
+      <button class="btn bW full" onclick="App.closeCfgModal()">Cancelar</button>
+      <button class="btn bP full" onclick="App.submitCfgPwd()">Entrar ▶</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>
